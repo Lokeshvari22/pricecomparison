@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% load static%} {%block content%}
+<section class="category">
+  <h1 class="heading">shop by category</h1>
+
+  <div class="box-container">
+    <a href="{%url 'television' %}" class="box">
+      <img src="{%static 'images/cat_img1.png' %}" alt="" />
+      <h3>televisions</h3>
+    </a>
+
+    <a href="{%url 'headphone'%}" class="box">
+      <img src="{%static 'images/cat_img3.png' %}" alt="" />
+      <h3>headphones</h3>
+    </a>
+
+    <a href="{%url 'smartwatch' %}" class="box">
+      <img src="{%static 'images/cat_img4.png' %}" alt="" />
+      <h3>smartwatches</h3>
+    </a>
+
+    <a href="{%url 'camera' %}" class="box">
+      <img src="{%static 'images/cat_img6.png' %}" alt="" />
+      <h3>camera</h3>
+    </a>
+
+    <a href="{%url 'speaker' %}" class="box">
+      <img src="{%static 'images/cat_img7.png' %}" alt="" />
+      <h3>speakers</h3>
+    </a>
+  </div>
+</section>
+
+<!-- product banner section ends -->
+{%endblock content%}

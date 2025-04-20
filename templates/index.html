@@ -1,0 +1,157 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% load static %}
+  <div id="DIV_1_home">
+    <!---->
+
+    <div id="DIV_2_home">
+      <a
+        href="https://www.amazon.in/"
+        rel="nofollow noopener"
+        id="A_3"
+        ><img
+          width="50"
+          height="50"
+          src="https://cdn1.smartprix.com/rx-iR2NxBi82-w100-h100/R2NxBi82.webp"
+          alt="Amazon"
+          id="IMG_4"
+        /><span id="SPAN_5">Amazon</span></a
+      ><a
+        href="https://www.flipkart.com/"
+        rel="nofollow noopener"
+        id="A_6"
+        ><img
+          width="50"
+          height="50"
+          src="https://cdn1.smartprix.com/rx-i1jV84HS1-w100-h100/1jV84HS1.webp"
+          alt="Flipkart"
+          id="IMG_7"
+        /><span id="SPAN_8">Flipkart</span></a
+      ><a
+        href="https://www.croma.com/"
+        rel="nofollow noopener"
+        id="A_9"
+        ><img
+          width="50"
+          height="50"
+          src="https://cdn1.smartprix.com/rx-i4vfi1umq-w100-h100/4vfi1umq.webp"
+          alt="Croma"
+          id="IMG_10"
+        /><span id="SPAN_11">Croma</span></a
+      ><a
+        href="https://www.samsung.com/"
+        rel="nofollow noopener"
+        id="A_12"
+        ><img
+          width="50"
+          height="50"
+          src="https://cdn1.smartprix.com/rx-ircJXXuPY-w100-h100/rcJXXuPY.webp"
+          alt="Samsung"
+          id="IMG_13"
+        /><span id="SPAN_14">Samsung</span></a
+      ><a
+        href="https://www.myntra.com/"
+        rel="nofollow noopener"
+        id="A_15"
+        ><img
+          width="50"
+          height="50"
+          src="https://cdn1.smartprix.com/rx-is3m58Ie0-w100-h100/s3m58Ie0.webp"
+          alt="Myntra"
+          id="IMG_16"
+        /><span id="SPAN_17">Myntra</span></a
+      ><a
+        href="https://www.boat-lifestyle.com/"
+        rel="nofollow noopener"
+        id="A_18"
+        ><img
+          width="50"
+          height="50"
+          src="https://cdn1.smartprix.com/rx-iLs7rsD92-w100-h100/Ls7rsD92.webp"
+          alt="More"
+          id="IMG_19"
+        /><span id="SPAN_20">Boat</span></a
+      >
+    </div>
+  </div>
+
+
+
+<section class="home">
+ 
+  <div class="swiper home-slider">
+  
+    <div class="swiper-wrapper">
+      {% for product in product %}
+      <div class="swiper-slide slide">
+        <div class="image">
+          <img src="{{ product.image.url }}" alt="img" >
+        </div>
+      
+        <div class="content">
+          <h3>{{product.name}}</h3>
+          <a href=" {{product.link}}" class="btn">shop now</a>
+        </div>
+      </div>
+      {% endfor %}
+      {% comment %} <div class="swiper-slide slide">
+        <div class="image">
+          <img src="{{ product.image.url }}" alt="" />
+        </div>
+        <div class="content">
+          <h3>{{product.name}}</h3>
+          <a href="{{product.link}}" class="btn">shop now</a>
+        </div>
+      </div>
+
+      <div class="swiper-slide slide">  
+        <div class="content">
+          <h3>headphones</h3>
+          <a href="{%url 'headphone'%}" class="btn">shop now</a>
+        </div>
+      </div>
+    </div> {% endcomment %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+ 
+  </div>
+</section>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- home section ends -->
+
+<!-- banner section starts  -->
+
+<section class="banner">
+  <div class="box-container">
+    <a href="{%url 'offheadphone'%}" class="box">
+      <img src="{% static 'images/banner-1.jpg' %}" alt="" />
+      <div class="content">
+        <span>special offer</span>
+        <h3>upto 50% off</h3>
+      </div>
+    </a>
+
+    <a href="{%url 'offsmartwatch' %}" class="box">
+      <img src="{% static 'images/banner-2.jpg' %}" alt="" />
+      <div class="content">
+        <span>special offer</span>
+        <h3>upto 50% off</h3>
+      </div>
+    </a>
+
+    <a href="{%url 'offspeaker' %}" class="box">
+      <img src="{%static 'images/cat_img7.png' %}" alt="" />
+      <div class="content">
+        <span>special offer</span>
+        <h3>upto 50% off</h3>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- banner section ends -->
+
+<!-- arrivals section starts  -->
+{% endblock content %}

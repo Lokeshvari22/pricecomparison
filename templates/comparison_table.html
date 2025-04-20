@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="comparison_table comparison py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Product Comparison</h2>
+    {% if products %}
+    <div class="table-responsive">
+      <table class="table table-bordered text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>Attribute</th>
+            {% for product in products %}
+              <th>{{ product.name }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Image</td>
+            {% for product in products %}
+              <td><img src="{{ product.image }}" alt="{{ product.name }}" style="height: 120px; object-fit: contain;"></td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Price</td>
+            {% for product in products %}
+              <td>₹{{ product.price }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Rating</td>
+            {% for product in products %}
+              <td>⭐{{ product.rating }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Specs Score</td>
+            {% for product in products %}
+              <td>{{ product.specs_score }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Sentiment Score</td>
+            {% for product in products %}
+              <td>{{ product.sentiment_score }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Final Score</td>
+            {% for product in products %}
+              <td>{{ product.final_score }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Features</td>
+            {% for product in products %}
+              <td style="text-align:left; white-space:pre-line;">{{ product.features }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Buy</td>
+            {% for product in products %}
+              <td><a href="{{ product.link }}" class="btn btn-sm btn-primary" target="_blank">Buy</a></td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-center text-danger">No products selected for comparison.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock content %}

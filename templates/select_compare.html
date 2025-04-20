@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="search_select category py-4">
+  <div class="container">
+    <h2 class="text-center mb-4">Select Products to Compare</h2>
+
+    <form method="post" action="{% url 'compare' %}">
+      {% csrf_token %}
+      <input type="hidden" name="category" value="{{ category }}">
+
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="text-center">{{ brand1|title }} Products</h4>
+          {% for product in products1 %}
+          <div class="card border-dark shadow-sm mb-3">
+            <div class="row g-0 align-items-center">
+              <div class="col-md-4">
+                <img src="{{ product.image }}" class="img-fluid p-2" alt="{{ product.name }}">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <p class="mb-1">₹{{ product.price }} | ⭐ {{ product.rating }}</p>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="selected_products" value="{{ product.name }}#FIELD#{{ product.image }}#FIELD#{{ product.price }}#FIELD#{{ product.rating }}#FIELD#{{ product.specs_score }}#FIELD#{{ product.sentiment_score }}#FIELD#{{ product.final_score }}#FIELD#{{ product.features|linebreaksbr }}#FIELD#{{ product.link }}">
+                    <p id="selectionMessage" class="text-danger"></p>
+                    <label class="form-check-label">Select for Compare</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="col-md-6">
+          <h4 class="text-center">{{ brand2|title }} Products</h4>
+          {% for product in products2 %}
+          <div class="card border-dark shadow-sm mb-3">
+            <div class="row g-0 align-items-center">
+              <div class="col-md-4">
+                <img src="{{ product.image }}" class="img-fluid p-2" alt="{{ product.name }}">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <p class="mb-1">₹{{ product.price }} | ⭐ {{ product.rating }}</p>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="selected_products" value="{{ product.name }}#FIELD#{{ product.image }}#FIELD#{{ product.price }}#FIELD#{{ product.rating }}#FIELD#{{ product.specs_score }}#FIELD#{{ product.sentiment_score }}#FIELD#{{ product.final_score }}#FIELD#{{ product.features|linebreaksbr }}#FIELD#{{ product.link }}">
+                    <label class="form-check-label">Select for Compare</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary" id="compareBtn" style="display:none;">Compare Selected</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const checkboxes = document.querySelectorAll('input[name="selected_products"]');
+  const compareBtn = document.getElementById('compareBtn');
+
+  const message = document.getElementById('selectionMessage');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        const selected = document.querySelectorAll('input[name="selected_products"]:checked');
+
+        const count = selected.length;
+        
+        message.textContent = count < 2 
+            ? `Select at least ${2 - count} more product(s) to enable compare.` 
+            : 'You can now compare the selected products.';
+        
+        compareBtn.style.display = count >= 2 ? 'inline-block' : 'none';
+    });
+ });
+
+</script>
+{% endblock content %}
