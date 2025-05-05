@@ -134,72 +134,7 @@ def extract_mobile_features(features_html):
 
     return values
 
-    """values = {
-        'Processor': 0, 'RAM': 0, 'Storage': 0, 'Display': 0,
-        'Battery': 0, 'Camera': 0, 'Build': 0, 'Software': 0,
-        'Charging': 0, 'Ecosystem': 0, 'Audio': 0, 'Gaming': 0
-    }
-    lines = features_html.split('\n')
-    for line in lines:
-        if 'Processor' in line:
-            if 'A17' in line or 'Snapdragon 8 Gen 3' in line:
-                values['Processor'] = 20
-            else:
-                values['Processor'] = 10
-        elif 'RAM' in line:
-            nums = re.findall(r'\d+', line)
-            values['RAM'] = min(int(nums[0]), 16) / 16 * 10 if nums else 0
-        elif 'Storage' in line:
-            nums = re.findall(r'\d+', line)
-            values['Storage'] = min(int(nums[0]), 1024) / 1024 * 10 if nums else 0
-        elif 'Display' in line:
-            if 'LTPO' in line or '120Hz' in line or 'AMOLED' in line:
-                values['Display'] = 20
-            else:
-                values['Display'] = 10
-        elif 'Battery' in line:
-            nums = re.findall(r'\d+', line)
-            if nums:
-                capacity = int(nums[0])
-                efficiency_bonus = 3 if 'iOS' in line else 1
-                values['Battery'] = (min(capacity, 5000) / 5000 * 15) + efficiency_bonus
-        elif 'Camera' in line:
-            if '48MP' in line or 'Photonic Engine' in line:
-                values['Camera'] = 20
-            else:
-                values['Camera'] = 10
-        elif 'Build' in line:
-            if 'Titanium' in line or 'IP68' in line:
-                values['Build'] = 20
-        elif 'OS' in line or 'iOS' in line or 'Android' in line:
-            if 'iOS' in line or 'Android 14' in line:
-                values['Software'] = 20
-            else:
-                values['Software'] = 10
-        elif 'Charging' in line:
-            if 'Fast charging' in line or 'Wireless charging' in line:
-                values['Charging'] = 15
-            elif 'Reverse charging' in line:
-                values['Charging'] = 10
-            else:
-                values['Charging'] = 5
-        elif 'Ecosystem' in line:
-            if 'AirDrop' in line or 'Handoff' in line or 'MagSafe' in line:
-                values['Ecosystem'] = 15
-            else:
-                values['Ecosystem'] = 5
-        elif 'Audio' in line:
-            if 'Dolby Atmos' in line or 'Stereo speakers' in line:
-                values['Audio'] = 15
-            else:
-                values['Audio'] = 5
-        elif 'Gaming' in line:
-            if 'Gaming mode' in line or 'Cooling system' in line:
-                values['Gaming'] = 15
-            else:
-                values['Gaming'] = 5
-    return values"""
-
+    
 def extract_laptop_features(features_html):
     values = {
         'Processor': 0, 'RAM': 0, 'Storage': 0, 'Display': 0,
@@ -278,51 +213,11 @@ def extract_laptop_features(features_html):
             values['Ports'] = 10
 
     return values
-    """values = {
-        'Processor': 0, 'RAM': 0, 'Storage': 0, 'Display': 0,
-        'Battery': 0, 'Build': 0, 'Graphics': 0, 'OS': 0, 'Ports': 0
-    }
-    lines = features_html.lower().split('\n')
-    for line in lines:
-        if 'i9' in line or 'ryzen 9' in line:
-            values['Processor'] = 20
-        elif 'i7' in line or 'ryzen 7' in line:
-            values['Processor'] = 15
-        elif 'i5' in line or 'ryzen 5' in line:
-            values['Processor'] = 10
-        if '16gb' in line:
-            values['RAM'] = 15
-        elif '8gb' in line:
-            values['RAM'] = 10
-        elif '32gb' in line:
-            values['RAM'] = 20
-        if 'ssd' in line:
-            values['Storage'] = 15
-        elif 'hdd' in line:
-            values['Storage'] = 5
-        if '144hz' in line or 'oled' in line:
-            values['Display'] = 15
-        elif 'ips' in line:
-            values['Display'] = 10
-        if 'battery' in line and ('8hr' in line or '10hr' in line):
-            values['Battery'] = 10
-        elif 'battery' in line and ('4hr' in line or '5hr' in line):
-            values['Battery'] = 5
-        if 'metal' in line or 'aluminum' in line:
-            values['Build'] = 10
-        elif 'plastic' in line:
-            values['Build'] = 5
-        if 'rtx' in line:
-            values['Graphics'] = 15
-        elif 'gtx' in line or 'integrated' in line:
-            values['Graphics'] = 10
-        if 'windows 11' in line or 'macos' in line:
-            values['OS'] = 10
-        if 'thunderbolt' in line or 'usb-c' in line:
-            values['Ports'] = 10
-    return values"""
+    
 
 def calculate_specs_score(features_html, category):
+    if not features_html:
+        return 0
     if category == 'mobiles':
         features = extract_mobile_features(features_html)
         weights = {
@@ -338,7 +233,7 @@ def calculate_specs_score(features_html, category):
             'Ecosystem': 0.05, 'Audio': 0.05, 'Gaming': 0.05
         }"""
         max_score = 20 * sum(weights.values())
-    else:
+    elif category == 'laptops':
         features = extract_laptop_features(features_html)
         """weights = {
             'Processor': 0.25, 'RAM': 0.15, 'Storage': 0.10, 'Display': 0.15,
@@ -360,6 +255,8 @@ def calculate_specs_score(features_html, category):
             15 * weights['Display'] + 10 * weights['Battery'] + 10 * weights['Build'] +
             15 * weights['Graphics'] + 10 * weights['OS'] + 10 * weights['Ports']
         )
+    else:
+        raise KeyError(f"Unsupported category: {category}")
     raw_score = sum(features.get(key, 0) * weights.get(key, 0) for key in weights)
     return round((raw_score / max_score) * 100, 2)
     
