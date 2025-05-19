@@ -131,6 +131,8 @@ def search(request):
         if category == 'clothes' and keyword:
             products1 = extract_product_data(SHOP1_URL, keyword, category)
             products2 = extract_product_data(SHOP2_URL, keyword, category)
+            if not products1 and not products2:
+                return render(request, 'Prnotfound.html')
             matches = compare_clothing_products(products1, products2)
             context = {
                 'matches': matches,
